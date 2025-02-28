@@ -67,12 +67,11 @@ func printTasks(todos []Todo) {
         return
     }
 
-    // Print table header
     fmt.Println("\nYour TO-DO:")
     fmt.Println("| ID   | Task                     | Status          |")
     fmt.Println("|------|--------------------------|-----------------|")
 
-    // Print each task row
+   
     for _, todo := range todos {
         status := "Not Completed"
         if todo.Completed {
@@ -115,7 +114,7 @@ func markComplete(todos *[]Todo, id int) error {
 	return fmt.Errorf("task with ID %d not found", id)
 }
 
-// Function to handle marking tasks as completed based on the user's input (multiple IDs)
+
 func markTaskComplete(todos *[]Todo, scanner *bufio.Scanner) {
 	fmt.Print("Enter the IDs of the tasks to mark as completed, separated by commas, or type 'skip' to skip: ")
 	scanner.Scan()
@@ -129,17 +128,17 @@ func markTaskComplete(todos *[]Todo, scanner *bufio.Scanner) {
 		return
 	}
 
-	// Split the input by commas
+
 	taskIDs := strings.Split(input, ",")
 	for _, idStr := range taskIDs {
-		idStr = strings.TrimSpace(idStr) // Remove any extra spaces
+		idStr = strings.TrimSpace(idStr) 
 		taskID, err := strconv.Atoi(idStr)
 		if err != nil {
 			fmt.Println("Invalid task ID:", idStr)
 			continue
 		}
 
-		// Mark the task as completed
+	
 		err = markComplete(todos, taskID)
 		if err != nil {
 			fmt.Println("Error:", err)
@@ -149,7 +148,6 @@ func markTaskComplete(todos *[]Todo, scanner *bufio.Scanner) {
 	}
 }
 
-// Function to check if all tasks are completed
 func allTasksCompleted(todos []Todo) bool {
 	for _, todo := range todos {
 		if !todo.Completed {

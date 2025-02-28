@@ -30,7 +30,7 @@ func main() {
             fmt.Println("Here's your status:")
             printTasks(todos)
             
-            // Always prompt to add more tasks regardless of completion
+           
             fmt.Println("Would you like to add more tasks? (yes/no)")
             scanner.Scan()
             if scanner.Text() == "yes" {

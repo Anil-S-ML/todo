@@ -1,0 +1,158 @@
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+    "errors"
+    "strconv"
+    "strings"
+)
+
+type Todo struct {
+    ID        int
+    Title     string
+    Completed bool
+}
+
+func main() {
+    fmt.Println("Welcome to the Todo List Application!")
+    fmt.Println("You can add multiple tasks. Type 'quit' to exit.")
+    var todos []Todo
+    nextID := 1
+    scanner := bufio.NewScanner(os.Stdin)
+    for {
+        task := getTaskInput(scanner)
+        if task == "quit" {
+            fmt.Println("Exiting... Here are your tasks:")
+            printTasks(todos)
+            markTaskComplete(&todos, scanner)
+            fmt.Println("Here's your status:")
+            printTasks(todos)
+            
+           
+            fmt.Println("Would you like to add more tasks? (yes/no)")
+            scanner.Scan()
+            if scanner.Text() == "yes" {
+                nextID = len(todos) + 1
+                continue
+            } else {
+                fmt.Println("Exiting the application. Come back again , You need thiss!")
+                break
+            }
+        }
+        todo, err := addTodo(&todos, task, nextID)
+        if err != nil {
+            fmt.Println("Error adding task:", err)
+        } else {
+            todos = append(todos, todo)
+            nextID++
+        }
+    }
+}
+
+
+func getTaskInput(scanner *bufio.Scanner) string {
+	fmt.Print("Enter a new task: ")
+	scanner.Scan()
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading input:", err)
+	}
+	return scanner.Text()
+}
+
+func printTasks(todos []Todo) {
+    if len(todos) == 0 {
+        fmt.Println("No tasks were added.")
+        return
+    }
+
+    fmt.Println("\nYour's TO-DO:")
+    fmt.Println("| ID   | Task                     | Status          |")
+    fmt.Println("|------|--------------------------|-----------------|")
+
+   
+    for _, todo := range todos {
+        status := "Not Completed"
+        if todo.Completed {
+            status = "Completed"
+        }
+        fmt.Printf("| %-4d | %-24s | %-15s |\n", todo.ID, todo.Title, status)
+    }
+}
+
+func addTodo(todos *[]Todo, title string, id int) (Todo, error) {
+	if title == "" {
+		return Todo{}, errors.New("task title cannot be empty")
+	}
+
+	todo := Todo{
+		ID:        id,
+		Title:     title,
+		Completed: false,
+	}
+	return todo, nil
+}
+
+func deleteTodo(todos *[]Todo, id int) error {
+	for i := 0; i < len(*todos); i++ {
+		if (*todos)[i].ID == id {
+			*todos = append((*todos)[:i], (*todos)[i+1:]...)
+			return nil
+		}
+	}
+	return fmt.Errorf("task with ID %d not found", id)
+}
+
+func markComplete(todos *[]Todo, id int) error {
+	for i := 0; i < len(*todos); i++ {
+		if (*todos)[i].ID == id {
+			(*todos)[i].Completed = true
+			return nil
+		}
+	}
+	return fmt.Errorf("task with ID %d not found", id)
+}
+
+
+func markTaskComplete(todos *[]Todo, scanner *bufio.Scanner) {
+	fmt.Print("Enter the IDs of the tasks to mark as completed, separated by commas, or type 'skip' to skip: ")
+	scanner.Scan()
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading input:", err)
+		return
+	}
+
+	input := scanner.Text()
+	if input == "skip" {
+		return
+	}
+
+
+	taskIDs := strings.Split(input, ",")
+	for _, idStr := range taskIDs {
+		idStr = strings.TrimSpace(idStr) 
+		taskID, err := strconv.Atoi(idStr)
+		if err != nil {
+			fmt.Println("Invalid task ID:", idStr)
+			continue
+		}
+
+	
+		err = markComplete(todos, taskID)
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			fmt.Println("Task marked as completed!")
+		}
+	}
+}
+
+func allTasksCompleted(todos []Todo) bool {
+	for _, todo := range todos {
+		if !todo.Completed {
+			return false
+		}
+	}
+	return true
+}

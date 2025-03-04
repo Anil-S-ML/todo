@@ -5,25 +5,27 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"todo/manager" // Relative import to the 'manager' package
-	"todo/utils"   // Relative import to the 'utils' package
+
+	"todo/manager"
+	"todo/Utils"
 )
 
 func main() {
 	fmt.Println("Welcome to the Todo List Application!")
 	fmt.Println("You can add multiple tasks. Type 'quit' to exit.")
-	manager := manager.NewInMemoryTodoManager()
+	todoManager := manager.NewInMemoryTodoManager()
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
 		task := utils.GetTaskInput(scanner)
 		if task == "quit" {
 			fmt.Println("Exiting... Here are your tasks:")
-			todos := manager.GetAll()
+			todos := todoManager.GetAll()
 			utils.PrintTasks(todos)
-			utils.MarkTaskComplete(manager, scanner)
+			utils.MarkTaskComplete(todoManager, scanner)
 			fmt.Println("Here's your status:")
-			utils.PrintTasks(todos)
+			updatedTodos := todoManager.GetAll()
+			utils.PrintTasks(updatedTodos)
 
 			fmt.Println("Would you like to add more tasks? (yes/no)")
 			scanner.Scan()
@@ -34,7 +36,8 @@ func main() {
 				break
 			}
 		}
-		_, err := manager.Add(task)
+
+		_, err := todoManager.Add(task)
 		if err != nil {
 			fmt.Println("Error adding task:", err)
 		}

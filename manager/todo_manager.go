@@ -15,8 +15,10 @@ type TodoManager interface {
 	Get(id int) (*todo.Todo, error)
 	GetAll() []todo.Todo
 	Delete(id int) error
-	MarkComplete(id int) error
+    MarkComplete(id int) error
+
 }
+
 
 // InMemoryTodoManager implements the TodoManager interface with an in-memory list.
 type InMemoryTodoManager struct {
@@ -35,8 +37,8 @@ func NewInMemoryTodoManager() *InMemoryTodoManager {
 
 // Add adds a new todo item to the list.
 func (tm *InMemoryTodoManager) Add(title string) (*todo.Todo, error) {
-	tm.mu.Lock()
-	defer tm.mu.Unlock()
+    tm.mu.Lock()
+    defer tm.mu.Unlock()
 	if title == "" {
 		return nil, errors.New("task title cannot be empty")
 	}
@@ -52,9 +54,9 @@ func (tm *InMemoryTodoManager) Add(title string) (*todo.Todo, error) {
 
 // Get retrieves a todo by its ID.
 func (tm *InMemoryTodoManager) Get(id int) (*todo.Todo, error) {
-	tm.mu.Lock()
-	defer tm.mu.Unlock()
-	for i := range tm.todos {
+    tm.mu.Lock()
+    defer tm.mu.Unlock()
+    	for i := range tm.todos {
 		if tm.todos[i].ID == id {
 			return &tm.todos[i], nil
 		}
@@ -64,15 +66,15 @@ func (tm *InMemoryTodoManager) Get(id int) (*todo.Todo, error) {
 
 // GetAll retrieves all todos.
 func (tm *InMemoryTodoManager) GetAll() []todo.Todo {
-	tm.mu.Lock()
-	defer tm.mu.Unlock()
+    tm.mu.Lock()
+    defer tm.mu.Unlock()
 	return tm.todos
 }
 
 // Delete deletes a todo by its ID.
 func (tm *InMemoryTodoManager) Delete(id int) error {
-	tm.mu.Lock()
-	defer tm.mu.Unlock()
+    tm.mu.Lock()
+    defer tm.mu.Unlock()
 	for i := range tm.todos {
 		if tm.todos[i].ID == id {
 			tm.todos = append(tm.todos[:i], tm.todos[i+1:]...)

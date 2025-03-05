@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 	"todo/manager" // Relative import to the 'manager' package
-	"todo/utils"   // Relative import to the 'utils' package
+	"todo/Utils"   // Relative import to the 'utils' package
 )
 
 func main() {
@@ -16,14 +16,14 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		task := utils.GetTaskInput(scanner)
+		task := Utils.GetTaskInput(scanner)
 		if task == "quit" {
 			fmt.Println("Exiting... Here are your tasks:")
 			todos := manager.GetAll()
-			utils.PrintTasks(todos)
-			utils.MarkTaskComplete(manager, scanner)
+			Utils.PrintTasks(todos)
+			Utils.MarkTaskComplete(manager, scanner)
 			fmt.Println("Here's your status:")
-			utils.PrintTasks(todos)
+			Utils.PrintTasks(todos)
 
 			fmt.Println("Would you like to add more tasks? (yes/no)")
 			scanner.Scan()

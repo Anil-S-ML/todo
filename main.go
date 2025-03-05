@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
 	"todo/manager"
 	"todo/utils"
 )
@@ -18,17 +17,15 @@ func main() {
 
 	for {
 
-		
 		task := utils.GetTaskInput(scanner)
 		if task == "quit" {
 			fmt.Println("Exiting... Here are your tasks:")
-
-			todos := manager.GetAll()
-			Utils.PrintTasks(todos)
-			Utils.MarkTaskComplete(manager, scanner)
+			todos := todoManager.GetAll()
+			utils.PrintTasks(todos)
+			utils.MarkTaskComplete(todoManager, scanner)
 			fmt.Println("Here's your status:")
-			Utils.PrintTasks(todos)
-
+			updatedTodos := todoManager.GetAll()
+			utils.PrintTasks(updatedTodos)
 
 			fmt.Println("Would you like to add more tasks? (yes/no)")
 			scanner.Scan()

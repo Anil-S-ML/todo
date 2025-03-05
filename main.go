@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
 	"todo/manager"
-	"todo/Utils"
+	"todo/utils"
 )
 
 func main() {
@@ -17,6 +16,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
+		
 		task := utils.GetTaskInput(scanner)
 		if task == "quit" {
 			fmt.Println("Exiting... Here are your tasks:")

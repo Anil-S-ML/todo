@@ -1,21 +1,28 @@
+<<<<<<< HEAD:Internal/cli/cli_utils.go
+package cli
+=======
 package utils
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go
 
 import (
 	"bufio"
 	"fmt"
 	"strconv"
 	"strings"
+<<<<<<< HEAD:Internal/cli/cli_utils.go
+
+	"todo/internal/manager"
+	"todo/internal/todo"
+=======
 	"sync"
 	"todo/manager"
 	"todo/todo"
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go
 )
 
 func GetTaskInput(scanner *bufio.Scanner) string {
 	fmt.Print("Enter a new task: ")
 	scanner.Scan()
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading input:", err)
-	}
 	return scanner.Text()
 }
 
@@ -57,18 +64,17 @@ func MarkTaskComplete(manager manager.TodoManager, scanner *bufio.Scanner) {
 		taskIDs = append(taskIDs, taskID)
 	}
 
-	var wg sync.WaitGroup
 	for _, taskID := range taskIDs {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			err := manager.MarkComplete(id)
-			if err != nil {
-				fmt.Printf("Error marking task %d: %v\n", id, err)
-			} else {
-				fmt.Printf("Task %d marked as completed!\n", id)
-			}
-		}(taskID)
+		err := manager.MarkComplete(taskID)
+		if err != nil {
+			fmt.Printf("Error marking task %d: %v\n", taskID, err)
+		} else {
+			fmt.Printf("Task %d marked as completed!\n", taskID)
+		}
 	}
+<<<<<<< HEAD:Internal/cli/cli_utils.go
+}
+=======
 	wg.Wait()
 }
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go

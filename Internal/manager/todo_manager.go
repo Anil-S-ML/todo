@@ -5,8 +5,12 @@ import (
 	"fmt"
 	"sync"
 
+<<<<<<< HEAD:Internal/manager/todo_manager.go
+	"todo/internal/todo"
+=======
 	// Relative import to the 'todo' package
 	"todo/todo"
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:manager/todo_manager.go
 )
 
 // TodoManager interface defines methods for managing todos.
@@ -30,7 +34,7 @@ type InMemoryTodoManager struct {
 // NewInMemoryTodoManager creates a new instance of InMemoryTodoManager.
 func NewInMemoryTodoManager() *InMemoryTodoManager {
 	return &InMemoryTodoManager{
-		todos:  []todo.Todo{},
+		todos:  make([]todo.Todo, 0),
 		nextID: 1,
 	}
 }
@@ -54,11 +58,20 @@ func (tm *InMemoryTodoManager) Add(title string) (*todo.Todo, error) {
 
 // Get retrieves a todo by its ID.
 func (tm *InMemoryTodoManager) Get(id int) (*todo.Todo, error) {
+<<<<<<< HEAD:Internal/manager/todo_manager.go
+	tm.mu.Lock()
+	defer tm.mu.Unlock()
+
+	for _, t := range tm.todos {
+		if t.ID == id {
+			return &t, nil
+=======
     tm.mu.Lock()
     defer tm.mu.Unlock()
     	for i := range tm.todos {
 		if tm.todos[i].ID == id {
 			return &tm.todos[i], nil
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:manager/todo_manager.go
 		}
 	}
 	return nil, fmt.Errorf("task with ID %d not found", id)
@@ -73,10 +86,18 @@ func (tm *InMemoryTodoManager) GetAll() []todo.Todo {
 
 // Delete deletes a todo by its ID.
 func (tm *InMemoryTodoManager) Delete(id int) error {
+<<<<<<< HEAD:Internal/manager/todo_manager.go
+	tm.mu.Lock()
+	defer tm.mu.Unlock()
+
+	for i, t := range tm.todos {
+		if t.ID == id {
+=======
     tm.mu.Lock()
     defer tm.mu.Unlock()
 	for i := range tm.todos {
 		if tm.todos[i].ID == id {
+>>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:manager/todo_manager.go
 			tm.todos = append(tm.todos[:i], tm.todos[i+1:]...)
 			return nil
 		}
@@ -87,8 +108,8 @@ func (tm *InMemoryTodoManager) MarkComplete(id int) error {
 	tm.mu.Lock()
 	defer tm.mu.Unlock()
 
-	for i := range tm.todos {
-		if tm.todos[i].ID == id {
+	for i, t := range tm.todos {
+		if t.ID == id {
 			tm.todos[i].Completed = true
 			return nil
 		}

@@ -6,14 +6,22 @@ import (
 	"os"
 	"strings"
 
+<<<<<<< HEAD:cmd/cli/main.go
 	"todo/internal/cli"
 	"todo/internal/manager"
+=======
+	"todo/manager" // Relative import to the 'manager' package
+	"todo/Utils"   // Relative import to the 'utils' package
+>>>>>>> 7beca907d08b58b27200241d60a9c031ec1b458e:main.go
 )
 
 func main() {
 	fmt.Println("Welcome to the Todo List Application!")
 	fmt.Println("You can add multiple tasks. Type 'quit' to exit.")
+<<<<<<< HEAD:cmd/cli/main.go
 
+=======
+>>>>>>> 7beca907d08b58b27200241d60a9c031ec1b458e:main.go
 	todoManager := manager.NewInMemoryTodoManager()
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -21,12 +29,20 @@ func main() {
 		task := cli.GetTaskInput(scanner)
 		if task == "quit" {
 			fmt.Println("Exiting... Here are your tasks:")
+<<<<<<< HEAD:cmd/cli/main.go
 			todos := todoManager.GetAll()
 			cli.PrintTasks(todos)
 			cli.MarkTaskComplete(todoManager, scanner)
+=======
+
+			todos := manager.GetAll()
+			Utils.PrintTasks(todos)
+			Utils.MarkTaskComplete(manager, scanner)
+>>>>>>> 7beca907d08b58b27200241d60a9c031ec1b458e:main.go
 			fmt.Println("Here's your status:")
 			updatedTodos := todoManager.GetAll()
 			cli.PrintTasks(updatedTodos)
+
 
 			fmt.Println("Would you like to add more tasks? (yes/no)")
 			scanner.Scan()

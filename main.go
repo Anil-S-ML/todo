@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 	"todo/manager"
-	"todo/utils"
+	"todo/Utils"
 )
 
 func main() {

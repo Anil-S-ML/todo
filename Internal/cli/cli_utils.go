@@ -1,23 +1,16 @@
-<<<<<<< HEAD:Internal/cli/cli_utils.go
+
 package cli
-=======
-package utils
->>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go
+
 
 import (
 	"bufio"
 	"fmt"
 	"strconv"
 	"strings"
-<<<<<<< HEAD:Internal/cli/cli_utils.go
 
 	"todo/internal/manager"
 	"todo/internal/todo"
-=======
-	"sync"
-	"todo/manager"
-	"todo/todo"
->>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go
+
 )
 
 func GetTaskInput(scanner *bufio.Scanner) string {
@@ -72,9 +65,6 @@ func MarkTaskComplete(manager manager.TodoManager, scanner *bufio.Scanner) {
 			fmt.Printf("Task %d marked as completed!\n", taskID)
 		}
 	}
-<<<<<<< HEAD:Internal/cli/cli_utils.go
+
 }
-=======
-	wg.Wait()
-}
->>>>>>> 051ff3cc04e000575fa430e7323703d409663f76:Utils/io_utils.go
+

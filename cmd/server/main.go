@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"todo/internal/auth"
-	myhttp "todo/internal/http"  // Renamed import to avoid conflict
+	myhttp "todo/Internal/http"  // Renamed import to avoid conflict
 	"todo/internal/middleware"
 	"todo/internal/manager"
 )

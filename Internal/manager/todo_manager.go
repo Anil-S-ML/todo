@@ -6,7 +6,7 @@ import (
 	"sync"
 
 
-	"todo/internal/todo"
+	"todo/Internal/todo"
 
 )
 

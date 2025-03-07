@@ -2,21 +2,29 @@ package main
 
 import (
 	"fmt"
-	"log"
-	
-	stdhttp "net/http"
+	"net/http"
 
-	"todo/internal/http"
+	"todo/internal/auth"
+	myhttp "todo/internal/http"  // Renamed import to avoid conflict
+	"todo/internal/middleware"
 	"todo/internal/manager"
 )
 
 func main() {
 	tm := manager.NewInMemoryTodoManager()
-	server := http.NewServer(tm)
-	
-	stdhttp.Handle("/", server.SetupRoutes())
-	
+	server := myhttp.NewServer(tm)
+
+	userStore := auth.NewInMemoryUserStore()
+
+	server.SetupRoutes()
+
+	// Apply middleware
+	handler := middleware.Logging(server)
+	handler = myhttp.AuthMiddleware(userStore)(handler) // Correct reference to http.AuthMiddleware
+
+	http.Handle("/", handler)
+
 	port := ":8080"
 	fmt.Printf("Server starting on %s\n", port)
-	log.Fatal(stdhttp.ListenAndServe(port, nil))
+	http.ListenAndServe(port, nil)
 }

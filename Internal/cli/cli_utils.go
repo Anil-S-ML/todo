@@ -1,16 +1,13 @@
-
 package cli
-
 
 import (
 	"bufio"
 	"fmt"
 	"strconv"
-	"strings"
+	"strings" // Add this import
 
 	"todo/internal/manager"
 	"todo/internal/todo"
-
 )
 
 func GetTaskInput(scanner *bufio.Scanner) string {
@@ -65,6 +62,4 @@ func MarkTaskComplete(manager manager.TodoManager, scanner *bufio.Scanner) {
 			fmt.Printf("Task %d marked as completed!\n", taskID)
 		}
 	}
-
 }
-

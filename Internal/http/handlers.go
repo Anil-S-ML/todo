@@ -1,19 +1,26 @@
 package http
 
 import (
-	"encoding/json"
-	"net/http"
-	"strconv"
-	"strings"
+	"encoding/json"  // Package json implements encoding and decoding of JSON 
+	"net/http"     // Package http provides HTTP client and server implementations
+	"strconv"    // Package strconv implements conversions to and from string representations of basic data types
+	"strings"   // Package strings implements simple functions to manipulate UTF-8 encoded strings
 
-	"todo/internal/manager"
+	"todo/internal/manager" // Importing the manager package
 )
 
 type Handlers struct {
 	TodoManager manager.TodoManager
-}
+}  // Handlers struct
 
-func (h *Handlers) handleTodos(w http.ResponseWriter, r *http.Request) {
+
+//(h *Handlers): This means the function is a method on the Handlers type
+// The *Handlers indicates that the function operates on a pointer to a Handlers object
+//The pointer is used so that the method can modify the state of the Handlers instance if necessary.
+//handleTodos(w http.ResponseWriter, r *http.Request): This is the signature of the method,
+
+
+func (h *Handlers) handleTodos(w http.ResponseWriter, r *http.Request) { //This is a method declaration in go
 	switch r.Method {
 	case http.MethodGet:
 		h.handleGetTodos(w, r)
@@ -22,7 +29,7 @@ func (h *Handlers) handleTodos(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
-}
+} // handleTodos function
 
 func (h *Handlers) handleTodo(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")

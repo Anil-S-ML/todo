@@ -8,6 +8,11 @@ type InMemoryUserStore struct {
 	users map[string]string
 }
 
+
+func (store *InMemoryUserStore) AddUser(username, password string) {
+    store.users[username] = password
+}
+
 func NewInMemoryUserStore() *InMemoryUserStore {
 	return &InMemoryUserStore{
 		users: map[string]string{
